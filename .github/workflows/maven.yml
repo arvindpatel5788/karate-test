@@ -26,18 +26,3 @@ jobs:
       run: mvn -B package --file pom.xml
     - name: run karate test
       run: mvn test --file pom.xml
-      
-    - name: Surefire Report
-      uses: arvindpatel5788/karate-test@latest
-      with:
-        # GITHUB_TOKEN
-        github_token: ${{secrets.SECRET_FOR_ACTIONS}}
-        # surefire/failsafe/junit compatible xml report paths in glob format
-        # report_paths:  **/surefire-reports/TEST-*.xml
-        # check name for test reports
-        check_name: Test Report
-        # commit sha to update the status
-        # fail run if there were test failures
-        fail_on_test_failures: true
-        # fail run if there were no test results found
-        fail_if_no_tests: true
