@@ -9,10 +9,16 @@ function fn() {
     myVarName: 'someValue'
   }
   if (env == 'dev') {
+    baseUrl = "https://jsonplaceholder.typicode.com"
+  } else if (env == 'stg') {
+    baseUrl = "https://jsonplaceholder.typicode.com"
+
     // customize
-    // e.g. config.foo = 'bar';
-  } else if (env == 'e2e') {
-    // customize
-  }
+  } else if (env == 'prod') {
+    baseUrl = "https://jsonplaceholder.typicode.com"
+
+  // customize
+}
+
   return config;
 }
