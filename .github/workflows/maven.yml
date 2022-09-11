@@ -27,40 +27,17 @@ jobs:
     - name: run karate test
       run: mvn test --file pom.xml
       
-    - name: Get Test Results history
-      uses: actions/checkout@v3
-      if: always()
-      continue-on-error: true
+    - name: Surefire Report
+      uses: ScaCap/action-surefire-report@v1.0.5
       with:
-        ref: gh-pages
-        path: gh-pages
-
-    - name: Create Playwright Test Results History
-      uses: arvindpatel5788/karate-test@v1.0
-      if: always()
-      id: allure-report
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        WORKFLOW_ID: main.yml
-        allure_results: allure-results
-        gh_pages: gh-pages
-        allure_report: allure-report
-        allure_history: allure-history
-
-    - name: Deploy report to Github Pages
-      if: always()
-      uses: arvindpatel5788/actions-gh-pages@v2
-      env:
-        PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        PUBLISH_BRANCH: gh-pages
-        PUBLISH_DIR: allure-history
-
-    - name: Post the link to the report
-      if: always()
-      uses: Sibz/github-status-action@v1
-      with: 
-          authToken: ${{secrets.GITHUB_TOKEN}}
-          context: 'Test Results Link'
-          state: 'success'
-          sha: ${{ github.sha }}
-          target_url: https://arvindpatel5788.github.io/karate-test/${{ github.run_number }}
+        # GITHUB_TOKEN
+        github_token: ${{secrets.SECRET_FOR_ACTIONS}}
+        # surefire/failsafe/junit compatible xml report paths in glob format
+        # report_paths:  **/surefire-reports/TEST-*.xml
+        # check name for test reports
+        check_name: Test Report
+        # commit sha to update the status
+        # fail run if there were test failures
+        fail_on_test_failures: true
+        # fail run if there were no test results found
+        fail_if_no_tests: true
